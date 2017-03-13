@@ -20,8 +20,8 @@ DATE_RANGE = ("2017-02-18", "2017-02-22")
 START_TIME = time.strptime(DATE_RANGE[0], "%Y-%m-%d")
 FINISH_TIME = time.strptime(DATE_RANGE[1], "%Y-%m-%d")
 
-APP_SECRET = “AAA”
-APP_ID = “BBB”
+APP_SECRET = “INPUT_SECRET_HERE”
+APP_ID = “INPUT_APP_ID_HERE”
 access_token = APP_ID + "|" + APP_SECRET
 graph_url = "https://graph.facebook.com/"
 
