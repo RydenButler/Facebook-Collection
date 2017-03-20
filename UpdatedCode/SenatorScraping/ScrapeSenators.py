@@ -12,8 +12,8 @@ with open('SenatorURLs.csv', 'rb') as urls:
 senator_pages = [re.search('.com/(.+?)/', page).group(1) for page in senator_pages[1:]]
 
 # Pick one of the below scrapers to use
-#from SenateScraperVerbose import *
-#from SenateScraper import *
+from SenateLikerVerbose import *
+#from SenateLiker import *
 
 # Running this function requires:
 #   1) Navigating to the SenatorScraping directory in the terminal.
@@ -23,6 +23,8 @@ senator_pages = [re.search('.com/(.+?)/', page).group(1) for page in senator_pag
 # The first senator, Luther Strange, doesn't work for some reason through the API; this is not an indexing error
 data = like_scraper(senator_pages[1:], ID, SECRET)
 
+data['RichardShelby'][1]
+
 from DataSaver import *
 
-write_csv(data)
+make_csv(data)

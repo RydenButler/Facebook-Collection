@@ -30,8 +30,12 @@ def make_csv(giant_tree):
       current_like_ids = []
       # Iterate over individual likes on a post
       for liker in post['likes']:
-        # Store name and id of liker
-        current_like_names.append(liker['name'])
+        try:
+          # Store name and id of liker
+          current_like_names.append(liker['name'])
+        except KeyError, name:
+          # If no name field, record placeholder
+          current_like_names.append('NO NAME FIELD')
         current_like_ids.append(liker['id'])
       # Create lists of post ids and times of equal length to the number of likers
       expanded_post_ids = replicator(post['id'], current_like_ids)
@@ -44,7 +48,7 @@ def make_csv(giant_tree):
         try:
           expanded_post_messages = replicator(post['story'], current_like_ids)
         except KeyError, story:
-          expanded_post_messages = replicator('No message content', current_like_ids)
+          expanded_post_messages = replicator('NO MESSAGE CONTENT', current_like_ids)
       # Create list of repeated facebook page names of equal length to likers
       expanded_senator_name = replicator(page, current_like_ids)
       # Extend lists containing all final data

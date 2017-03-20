@@ -11,7 +11,6 @@ def like_scraper(page_list, APP_ID, APP_SECRET):
   sess = requests.Session()
   adapter = requests.adapters.HTTPAdapter(max_retries = 100)
   sess.mount('http://', adapter)
-
   # Initialize graph object
   graph = facebook.GraphAPI(version='2.2')
   # Generate access token
@@ -103,7 +102,7 @@ def like_scraper(page_list, APP_ID, APP_SECRET):
         except KeyError:
           break
       # Notifies user of likes for post    
-      print '        It had %d likes' % len(likes['data'])
+      print '    %d likes' % len(likes['data'])
       # Saves all likes in post as dictionary value
       j['likes'] = likes['data']
     # Saves post w/ nested likes as dictionary values w/ facebook page name as key
