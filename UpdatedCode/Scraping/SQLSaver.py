@@ -101,3 +101,32 @@ def populate_database(giant_tree, database_name):
               like_data = (user_id, page, 'NO MESSAGE CONTENT', post['id'], post['created_time'])
           create_Data(conn, like_data)
   conn.close()
+
+def add_to_database(database_name, page_name, post):
+  # create a database connection
+  conn = create_connection(database_name)
+  # Tally used for user notifications. These are suppressed below.
+  #tally = 0
+  with conn:
+    for liker in post['likes']:
+      #tally += 1
+      # Suppressed comment for being too verbose on execution
+      #print 'Storing data for observation %d' % (tally)
+      try:
+        # Store name and id of liker
+        user = (liker['name'], liker['id']);
+      except KeyError, name:
+        # If no name field, record placeholder
+        user = ('NO NAME FIELD', liker['id']);
+      user_id = create_ID(conn, user)
+      # Suppressed comment for being too verbose on execution
+      #print 'Current row id is %s' % (user_id)
+      try:
+        like_data = (user_id, page_name, post['message'], post['id'], post['created_time'])
+      except KeyError, message:
+        try:
+          like_data = (user_id, page_name, post['story'], post['id'], post['created_time'])
+        except KeyError, story:
+          like_data = (user_id, page_name, 'NO MESSAGE CONTENT', post['id'], post['created_time'])
+      create_Data(conn, like_data)
+  conn.close()

@@ -3,9 +3,10 @@ import requests
 import json
 import ssl
 import time
+from SQLSaver import *
 
 # Input a list of facebook page names; facebook.com/PAGENAME
-def like_scraper(page_list, APP_ID, APP_SECRET):
+def like_scraper(page_list, APP_ID, APP_SECRET, database_name):
   # Creating a session is necessary to handle some network/server errors
   # Retries are implemented in the scraping function to address other network issues
   sess = requests.Session()
@@ -17,9 +18,6 @@ def like_scraper(page_list, APP_ID, APP_SECRET):
   my_token = graph.get_app_access_token(app_id = APP_ID, app_secret = APP_SECRET)
   # Pass valid access token to graph object
   graph = facebook.GraphAPI(access_token = my_token, version='2.7')
-  # Create empty dictionary to store all scraped data
-  # It will be stored hierarchically, with likes nested in comments, nested in facebook pages
-  final_data = {}
   # Create empty list to store errant pages
   missed_pages = []
   # Create tally for user notification
@@ -120,9 +118,13 @@ def like_scraper(page_list, APP_ID, APP_SECRET):
               time.sleep(60)
               continue
             except facebook.GraphAPIError:
-              print 'Maintype error occurred when collecting posts! \nPython will rest for a minute.'
+              print 'Maintype error occurred when paginating over likes! \nPython will rest for a minute.'
               time.sleep(60)
               continue
+            except ValueError:
+              print 'Value error occurred when paginating over likes! \nYou may want to re-collect these likes.'
+              missed_pages.append(i)
+              break
             break
           likes['paging'] = more_likes['paging']
           likes['data'].extend(more_likes['data'])
@@ -132,6 +134,5 @@ def like_scraper(page_list, APP_ID, APP_SECRET):
       print '    %d likes' % len(likes['data'])
       # Saves all likes in post as dictionary value
       j['likes'] = likes['data']
-    # Saves post w/ nested likes as dictionary values w/ facebook page name as key
-    final_data[i] = posts['data']
-  return{'Data': final_data, 'Errors': missed_pages}
+      add_to_database(database_name, i, j)
+  return{'Errors': missed_pages}
