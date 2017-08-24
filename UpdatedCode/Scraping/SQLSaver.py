@@ -38,12 +38,12 @@ def create_database(database_name):
                             FOREIGN KEY (page_id) REFERENCES Pages (page_id)
                             );"""
   sql_create_Likes_table = """CREATE TABLE IF NOT EXISTS Likes (
-                            id integer PRIMARY KEY,
                             post_id text NOT NULL,
                             WUSTL_id integer NOT NULL,
                             FOREIGN KEY (post_id) REFERENCES Posts (post_id),
                             FOREIGN KEY (WUSTL_id) REFERENCES Users (WUSTL_id),
                             CONSTRAINT UQ_Like UNIQUE (post_id, WUSTL_id)
+                            PRIMARY KEY (post_id, WUSTL_id)
                             );"""
   # create a database connection
   conn = create_connection(database_name)
