@@ -1,9 +1,12 @@
+.tables
+.schema
+
+SELECT * FROM Users;
+
 -- SQLite code to interact with Facebook.db
 
 SELECT COUNT (DISTINCT Facebook_id)
-FROM ID;
-
-SELECT * FROM ID;
+FROM Users;
 
 -- Show messages with corresponding user id for specific username
 SELECT ID.rowid, Data.message

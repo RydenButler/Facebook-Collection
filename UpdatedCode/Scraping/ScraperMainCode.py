@@ -1,7 +1,7 @@
 # Import system path modifier
 import sys
 # Set system path to view scraper
-sys.path.insert(0, 'Facebook-Project/UpdatedCode/Scraping')
+sys.path.insert(0, 'Facebook-Collection/UpdatedCode/Scraping')
 # Import parallelization tools
 from joblib import Parallel, delayed
 import multiprocessing
