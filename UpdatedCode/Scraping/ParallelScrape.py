@@ -90,7 +90,7 @@ def scrape_and_save(page, APP_ID_LIST, APP_SECRET_LIST, database_path, page_star
   # Empty tally for posts
   post_tally = page_start
   # Iterate over posts to save likes
-  for post in posts[page_start:]:
+  for post in list(reversed(posts))[page_start:]:
     post_tally += 1
     # Create counter of like retry attempts
     like_attempts = 0
